@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Notes</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container-fluid text-center">
+  <div>
+    <form th:action="@{/logout}" method="post">
+      <p>
+        Welcome <b>[[${#request.userPrincipal.principal.fullName}]]</b>
+      </p>
+      <input type="submit" value="Sign Out" />
+    </form>
+    <form th:action="@{/}" method="get">
+      <input type="submit" value="Main page" />
+    </form>
+  </div>
+  <h1>Notes</h1>
+  <div class="h3 mr-2">
+    <a th:href="@{/notes/new}">Add new note</a>
+  </div>
+  <div th:if="${message}" class="alert alert-success text-center">
+    [[${message}]]
+  </div>
+<!--  <p>-->
+<!--    Welcome <b>[[${#request.userPrincipal.principal.username}]]</b>-->
+<!--  </p>-->
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Title</th>
+      <th>Note</th>
+      <th>Shared</th>
+      <th>Encrypted</th>
+      <th>Actions</th>
+
+    </tr>
+
+    </thead>
+    <tbody>
+    <th:block th:each="note : ${listNotes}">
+      <tr th:if="${#request.userPrincipal.principal.username} == ${note.email}">
+        <td>[[${note.id}]]</td>
+        <td>[[${note.email}]]</td>
+        <td>[[${note.title}]]</td>
+        <td th:utext="${note.text}"> </td>
+        <td>[[${note.shared}]]</td>
+        <td>[[${note.encrypted}]]</td>
+        <td>
+          <a class="h4 mr-3" th:href="@{'/notes/edit/' + ${note.id}}">Edit</a>
+          <a class="h4 mr-3" th:href="@{'/notes/delete/' + ${note.id}}">Delete</a>
+          <a class="h4" th:href="@{'/notes/encrypt/' + ${note.id}}">Encrypt/Decrypt</a>
+        </td>
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

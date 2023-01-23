@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Public Notes</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container-fluid text-center">
+  <div>
+    <form th:action="@{/}" method="get">
+      <input type="submit" value="Main page" />
+    </form>
+  </div>
+  <h1>Notes</h1>
+
+
+
+  <table class="table table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Email</th>
+      <th>Title</th>
+      <th>Note</th>
+<!--      <th>Shared</th>-->
+
+
+    </tr>
+
+    </thead>
+    <tbody>
+    <th:block th:each="note : ${listPublicNotes}">
+      <tr th:if="${note.shared} == true">
+        <td>[[${note.id}]]</td>
+        <td>[[${note.email}]]</td>
+        <td>[[${note.title}]]</td>
+        <td th:utext="${note.text}"> </td>
+<!--        <td>[[${note.shared}]]</td>-->
+
+      </tr>
+    </th:block>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
