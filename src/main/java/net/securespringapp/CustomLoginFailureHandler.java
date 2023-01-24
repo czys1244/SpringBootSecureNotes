@@ -40,7 +40,11 @@ public class CustomLoginFailureHandler extends SimpleUrlAuthenticationFailureHan
             }
 
         }
-
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         super.setDefaultFailureUrl("/login?error");
         super.onAuthenticationFailure(request, response, exception);
     }
