@@ -38,6 +38,9 @@ public class NoteController {
     @PostMapping("/notes/save")
     public String saveNote(Note note, RedirectAttributes ra, @AuthenticationPrincipal CustomUserDetails userDetails){
         String userEmail = userDetails.getUsername();
+        if (note.getEmail() != null && !userEmail.equals(note.getEmail())){
+            return "redirect:/notes";
+        }
         note.setEmail(userEmail);
         service.save(note);
         ra.addFlashAttribute("message", "The note was added");
@@ -46,7 +49,9 @@ public class NoteController {
 
     @PostMapping("/notes/saveencrypted")
     public String encryptNote(Note note, RedirectAttributes ra, @AuthenticationPrincipal CustomUserDetails userDetails){
-
+        if (!note.getEmail().equals(userDetails.getUsername())){
+            return "redirect:/notes";
+        }
         service.saveEncrypted(note);
         ra.addFlashAttribute("message", "The note was added");
         return "redirect:/notes";

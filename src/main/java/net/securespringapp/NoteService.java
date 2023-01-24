@@ -6,6 +6,7 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Safelist;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 @Service
 public class NoteService {
+    static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     static final String secretKey = "wUZOQ6Xc+1lenkZTQ9ZDf";
     @Autowired private NoteRepository repo;
 
@@ -21,6 +23,10 @@ public class NoteService {
     }
 
     public void save(Note note) {
+        String title = note.getTitle();
+        String saf = Jsoup.clean(title, Safelist.basic());
+        note.setTitle(saf);
+
         String markdown = note.getText();
         String unsafe = convertMarkdownToHTML(markdown);
         String safe = Jsoup.clean(unsafe, Safelist.relaxed());
@@ -36,23 +42,27 @@ public class NoteService {
         String correctPassword = correct.get().getPassword();
 
         String originalString= note.getText();
-        System.out.println(note.getPassword());
-        System.out.println(note);
+//        System.out.println(note.getPassword());
+//        System.out.println(note);
         if (note.isEncrypted()){
-            System.out.println("hura!");
-            if (correctPassword.equals(note.getPassword())){
-                System.out.println("decrypting!");
+//            System.out.println("hura!");
+            if (passwordEncoder.matches(note.getPassword(), correctPassword)){
+//                System.out.println("decrypting!");
                 String decryptedString = Aes.decrypt(originalString, secretKey);
                 note.setText(decryptedString);
                 note.setEncrypted(false);
+                String encPassword = passwordEncoder.encode(note.getPassword());
+                note.setPassword(encPassword);
                 repo.save(note);
             }
         } else{
-            System.out.println("encrypting!");
+//            System.out.println("encrypting!");
             String encryptedString = Aes.encrypt(originalString, secretKey) ;
             System.out.println(Aes.decrypt(encryptedString, secretKey));
             note.setText(encryptedString);
             note.setEncrypted(true);
+            String encPassword = passwordEncoder.encode(note.getPassword());
+            note.setPassword(encPassword);
             repo.save(note);
         }
 
