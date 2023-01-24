@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class NoteService {
     static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    static final String secretKey = "wUZOQ6Xc+1lenkZTQ9ZDf";
+
     @Autowired private NoteRepository repo;
 
     public List<Note> listAll(){
@@ -26,11 +26,11 @@ public class NoteService {
         String title = note.getTitle();
         String saf = Jsoup.clean(title, Safelist.basic());
         note.setTitle(saf);
-
         String markdown = note.getText();
         String unsafe = convertMarkdownToHTML(markdown);
         String safe = Jsoup.clean(unsafe, Safelist.relaxed());
         note.setText(safe);
+
         repo.save(note);
     }
     public void saveEncrypted(Note note) {
@@ -48,7 +48,7 @@ public class NoteService {
 //            System.out.println("hura!");
             if (passwordEncoder.matches(note.getPassword(), correctPassword)){
 //                System.out.println("decrypting!");
-                String decryptedString = Aes.decrypt(originalString, secretKey);
+                String decryptedString = Aes.decrypt(originalString);
                 note.setText(decryptedString);
                 note.setEncrypted(false);
                 String encPassword = passwordEncoder.encode(note.getPassword());
@@ -57,8 +57,8 @@ public class NoteService {
             }
         } else{
 //            System.out.println("encrypting!");
-            String encryptedString = Aes.encrypt(originalString, secretKey) ;
-            System.out.println(Aes.decrypt(encryptedString, secretKey));
+            String encryptedString = Aes.encrypt(originalString) ;
+//            System.out.println(Aes.decrypt(encryptedString));
             note.setText(encryptedString);
             note.setEncrypted(true);
             String encPassword = passwordEncoder.encode(note.getPassword());

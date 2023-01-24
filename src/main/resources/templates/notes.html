@@ -52,7 +52,7 @@
         <td>[[${note.shared}]]</td>
         <td>[[${note.encrypted}]]</td>
         <td>
-          <a class="h4 mr-3" th:href="@{'/notes/edit/' + ${note.id}}">Edit</a>
+          <a class="h4 mr-3" th:if="${note.encrypted} == false" th:href="@{'/notes/edit/' + ${note.id}}">Edit</a>
           <a class="h4 mr-3" th:href="@{'/notes/delete/' + ${note.id}}">Delete</a>
           <a class="h4" th:href="@{'/notes/encrypt/' + ${note.id}}">Encrypt/Decrypt</a>
         </td>
