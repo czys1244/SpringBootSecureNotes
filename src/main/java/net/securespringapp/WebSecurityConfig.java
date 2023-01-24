@@ -57,7 +57,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.defaultSuccessUrl("/notes")
 				.permitAll()
 			.and()
-			.logout().logoutSuccessUrl("/").permitAll();
+			.logout().logoutSuccessUrl("/").permitAll()
+			.and()
+				.headers()
+				.contentSecurityPolicy("script-src 'self'");
 	}
 	@Autowired
 	private CustomLoginFailureHandler loginFailureHandler;

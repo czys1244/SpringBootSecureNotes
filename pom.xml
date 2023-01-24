@@ -45,6 +45,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.28</version>
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
@@ -66,7 +67,7 @@
 		<dependency>
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
-			<version>3.4.1</version>
+			<version>3.6.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.webjars</groupId>
@@ -93,6 +94,8 @@
 			<artifactId>commons-codec</artifactId>
 			<version>1.15</version>
 		</dependency>
+
+
 	</dependencies>
 
 	<build>
