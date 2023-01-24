@@ -37,7 +37,12 @@ public class AppController {
 		
 		return "register_success";
 	}
-	
+	@GetMapping("/login")
+	public String viewLoginPage() {
+		// custom logic before showing login page...
+
+		return "login";
+	}
 
 
 }

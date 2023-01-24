@@ -6,11 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "users")
 public class User {
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,6 +27,37 @@ public class User {
 	
 	@Column(name = "last_name", nullable = false, length = 20)
 	private String lastName;
+	@Column(name = "account_non_locked", columnDefinition = "boolean default true")
+	private boolean accountNonLocked=true;
+
+	@Column(name = "failed_attempt")
+	private int failedAttempt;
+
+	@Column(name = "lock_time")
+	private Date lockTime;
+	public boolean isAccountNonLocked() {
+		return accountNonLocked;
+	}
+
+	public void setAccountNonLocked(boolean accountNonLocked) {
+		this.accountNonLocked = accountNonLocked;
+	}
+
+	public int getFailedAttempt() {
+		return failedAttempt;
+	}
+
+	public void setFailedAttempt(int failedAttempt) {
+		this.failedAttempt = failedAttempt;
+	}
+
+	public Date getLockTime() {
+		return lockTime;
+	}
+
+	public void setLockTime(Date lockTime) {
+		this.lockTime = lockTime;
+	}
 
 	public Long getId() {
 		return id;
@@ -66,7 +98,7 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	
-	
-	
+
+
+
 }

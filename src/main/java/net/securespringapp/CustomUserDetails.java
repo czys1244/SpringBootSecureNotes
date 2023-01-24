@@ -13,6 +13,7 @@ public class CustomUserDetails implements UserDetails {
 		this.user = user;
 	}
 
+
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		return null;
@@ -34,9 +35,16 @@ public class CustomUserDetails implements UserDetails {
 	}
 
 	@Override
-	public boolean isAccountNonLocked() {
-		return true;
+	public boolean isAccountNonLocked()
+	{
+		return user.isAccountNonLocked();
 	}
+//	{
+//		return true;
+//	}
+
+
+
 
 	@Override
 	public boolean isCredentialsNonExpired() {
@@ -52,4 +60,7 @@ public class CustomUserDetails implements UserDetails {
 		return user.getFirstName() + " " + user.getLastName();
 	}
 
+	public User getUser() {
+		return user;
+	}
 }
