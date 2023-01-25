@@ -58,6 +58,7 @@ public class NoteService {
                 String unsafe = convertMarkdownToHTML(note.getText());
                 String safe = Jsoup.clean(unsafe, Safelist.relaxed());
                 note.setHtml(safe);
+//                System.out.println("decrypted: "+ note);
                 repo.save(note);
             }
         } else{
@@ -68,6 +69,7 @@ public class NoteService {
             note.setEncrypted(true);
             String encPassword = passwordEncoder.encode(note.getPassword());
             note.setPassword(encPassword);
+//            System.out.println("encrypted: "+ note);
             repo.save(note);
         }
 

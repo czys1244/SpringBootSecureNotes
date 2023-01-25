@@ -12,10 +12,11 @@ public class Note {
     private String email;
     @Column(nullable = false, length = 50)
     private String title;
-    @Column(nullable = false, length = 10000)
+    @Column(nullable = false, length = 250)
     private String text;
     @Column(length = 200)
     private String password;
+
     private String html;
 
     public String getHtml() {
