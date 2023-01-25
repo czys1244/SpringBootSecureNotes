@@ -37,6 +37,7 @@ public class NoteController {
     }
     @PostMapping("/notes/save")
     public String saveNote(Note note, RedirectAttributes ra, @AuthenticationPrincipal CustomUserDetails userDetails){
+
         String userEmail = userDetails.getUsername();
         if (note.getEmail() != null && !userEmail.equals(note.getEmail())){
             return "redirect:/notes";

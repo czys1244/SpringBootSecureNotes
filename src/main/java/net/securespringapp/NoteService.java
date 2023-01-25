@@ -23,21 +23,23 @@ public class NoteService {
     }
 
     public void save(Note note) {
+        if ((note.getPassword() != null && note.getPassword().length()>20) || note.getText().length()>100 || note.getTitle().length()>50){
+            return;
+        }
         String title = note.getTitle();
         String saf = Jsoup.clean(title, Safelist.basic());
         note.setTitle(saf);
         String markdown = note.getText();
         String unsafe = convertMarkdownToHTML(markdown);
         String safe = Jsoup.clean(unsafe, Safelist.relaxed());
-        note.setText(safe);
+        note.setHtml(safe);
 
         repo.save(note);
     }
     public void saveEncrypted(Note note) {
-//        if (note.getPassword()==null){
-//            note.setPassword("");
-//        }
-
+        if ((note.getPassword() != null && note.getPassword().length()>20) || note.getText().length()>100 || note.getTitle().length()>50){
+            return;
+        }
         Optional<Note> correct = repo.findById(note.getId());
         String correctPassword = correct.get().getPassword();
 
@@ -53,6 +55,9 @@ public class NoteService {
                 note.setEncrypted(false);
                 String encPassword = passwordEncoder.encode(note.getPassword());
                 note.setPassword(encPassword);
+                String unsafe = convertMarkdownToHTML(note.getText());
+                String safe = Jsoup.clean(unsafe, Safelist.relaxed());
+                note.setHtml(safe);
                 repo.save(note);
             }
         } else{

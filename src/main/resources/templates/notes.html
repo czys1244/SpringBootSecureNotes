@@ -48,7 +48,8 @@
         <td>[[${note.id}]]</td>
         <td>[[${note.email}]]</td>
         <td>[[${note.title}]]</td>
-        <td th:utext="${note.text}"> </td>
+        <td th:if="${note.encrypted == false}" th:utext="${note.html}"> </td>
+        <td th:if="${note.encrypted == true}" th:utext="${note.text}"> </td>
         <td>[[${note.shared}]]</td>
         <td>[[${note.encrypted}]]</td>
         <td>
