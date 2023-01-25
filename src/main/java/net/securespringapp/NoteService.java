@@ -23,7 +23,7 @@ public class NoteService {
     }
 
     public void save(Note note) {
-        if ((note.getPassword() != null && note.getPassword().length()>20) || note.getText().length()>100 || note.getTitle().length()>50){
+        if ((note.getPassword() != null && note.getPassword().length()>20) || note.getText().length()>500 || note.getTitle().length()>50){
             return;
         }
         String title = note.getTitle();
@@ -37,7 +37,7 @@ public class NoteService {
         repo.save(note);
     }
     public void saveEncrypted(Note note) {
-        if ((note.getPassword() != null && note.getPassword().length()>20) || note.getText().length()>100 || note.getTitle().length()>50){
+        if ((note.getPassword() != null && note.getPassword().length()>20) || note.getText().length()>500 || note.getTitle().length()>50){
             return;
         }
         Optional<Note> correct = repo.findById(note.getId());
