@@ -12,7 +12,7 @@ public class Note {
     private String email;
     @Column(nullable = false, length = 50)
     private String title;
-    @Column(nullable = false, length = 250)
+    @Column(nullable = false, length = 255)
     private String text;
     @Column(length = 200)
     private String password;
